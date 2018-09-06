@@ -11,25 +11,26 @@
     <Row v-if="showOrigin">
       <Col span="20" offset="2">
       <Button class="view" @click="switchView" type="primary">View the progress</Button>
-      <EChartBar id="chart_1" :rawData="rawData" title="Median gross annual household income, median annual rent and median annual mortgage payments"></EChartBar>
+      <EChartBar id="chart_1" :rawData="rawData" title="Housing affortablity"></EChartBar>
       </Col>
     </Row>
     <Row v-if="!showOrigin">
       <Col span="20" offset="2">
       <Button class="view" @click="switchView" type="primary">View the origin chart</Button>
-      <EChartLine id="chart_2" :rawData="rawData" title="The process by line chart"></EChartLine>
+      <EChartLine id="chart_2" :rawData="rawData" title="Housing affortablity"></EChartLine>
       </Col>
     </Row>
     <Row v-if="!showOrigin">
       <Col span="20" offset="2">
-      <EChartLineRate id="chart_4" :rawData="rateData" title="The rate process" subTitle="median annual rent rate = median annual rent / median gross annual household income * 100)%; median annual mortgage payments rate = (median annual mortgage payments / median gross annual household income * 100)% "></EChartLineRate>
+      <EChartPie id="chart_3" :rawData="pieData" title="Housing affortablity" subTitle="Other payment = median gross annual household income - median annual rent - median annual mortgage payments"></EChartPie>
       </Col>
     </Row>
     <Row v-if="!showOrigin">
       <Col span="20" offset="2">
-      <EChartPie id="chart_3" :rawData="pieData" title="The pie chart" subTitle="Other payment = median gross annual household income - median annual rent - median annual mortgage payments"></EChartPie>
+      <EChartLineRate id="chart_4" :rawData="rateData" title="Housing affortablity" subTitle="median annual rent rate = median annual rent / median gross annual household income * 100)%"></EChartLineRate>
       </Col>
     </Row>
+
   </div>
 </template>
 <script>
