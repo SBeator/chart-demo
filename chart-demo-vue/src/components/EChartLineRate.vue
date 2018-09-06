@@ -16,7 +16,7 @@ export default {
     },
     title: {
       type: String,
-      default: ''
+      required: true
     },
     subTitle: {
       type: String,
@@ -39,29 +39,45 @@ export default {
         legend: {
           bottom: 0
         },
-        tooltip: {},
+        tooltip: {
+          formatter: data =>
+            console.log(data) ||
+            data.seriesName +
+              ':' +
+              parseFloat(data.data[data.seriesIndex + 1] * 100).toFixed(2) +
+              '%'
+        },
         dataset: {
           source: this.rawData
         },
         xAxis: { type: 'category' },
         yAxis: {
+          min: function(value) {
+            return Math.max(0, value.min - 0.1)
+          },
+          max: function(value) {
+            return value.max + 0.05
+          },
           axisLabel: {
-            formatter: value => '$' + parseFloat(value).toLocaleString()
+            formatter: value => parseFloat(value * 100).toFixed(0) + '%'
           }
         },
-        series: ['', '', ''].map(() => ({
-          type: 'bar',
-          barGap: 0,
-          label: {
-            normal: {
-              position: 'top',
-              show: true,
-              formatter: data =>
-                '$' +
-                parseFloat(data.value[data.seriesIndex + 1]).toLocaleString()
+        series: Array(this.rawData[0].length - 1)
+          .fill(1)
+          .map(() => ({
+            type: 'line',
+            barGap: 0,
+            label: {
+              normal: {
+                position: 'top',
+                show: true,
+                formatter: data =>
+                  parseFloat(data.value[data.seriesIndex + 1] * 100).toFixed(
+                    2
+                  ) + '%'
+              }
             }
-          }
-        }))
+          }))
       }
 
       this.myChart.setOption(option)

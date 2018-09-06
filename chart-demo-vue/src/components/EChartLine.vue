@@ -13,6 +13,14 @@ export default {
     rawData: {
       type: Array,
       required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    subTitle: {
+      type: String,
+      default: ''
     }
   },
   mounted() {
@@ -24,6 +32,10 @@ export default {
       this.myChart = echarts.init(element)
 
       var option = {
+        title: {
+          text: this.title,
+          subtext: this.subTitle
+        },
         legend: {
           bottom: 0
         },
@@ -37,19 +49,21 @@ export default {
             formatter: value => '$' + parseFloat(value).toLocaleString()
           }
         },
-        series: ['', '', ''].map(() => ({
-          type: 'line',
-          barGap: 0,
-          label: {
-            normal: {
-              position: 'top',
-              show: true,
-              formatter: data =>
-                '$' +
-                parseFloat(data.value[data.seriesIndex + 1]).toLocaleString()
+        series: Array(this.rawData[0].length - 1)
+          .fill(1)
+          .map(() => ({
+            type: 'line',
+            barGap: 0,
+            label: {
+              normal: {
+                position: 'top',
+                show: true,
+                formatter: data =>
+                  '$' +
+                  parseFloat(data.value[data.seriesIndex + 1]).toLocaleString()
+              }
             }
-          }
-        }))
+          }))
       }
 
       this.myChart.setOption(option)
@@ -78,7 +92,7 @@ export default {
 </script>
 <style>
 .chart {
-  height: 500px;
+  height: 400px;
   background: white;
   padding: 20px;
   margin: 20px 0;
