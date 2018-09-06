@@ -100,11 +100,22 @@ export default {
       return rateData
     },
     pieData() {
-      const pieData = [...rawData].map(data => [...data])
-      pieData[0][1] = 'Other payment'
+      const pieData = [...rawData].map(data => [
+        data[0],
+        data[2],
+        data[3],
+        data[1],
+        data[1]
+      ])
+      pieData[0][3] = 'income left'
+      pieData[0][4] = 'Income left'
       for (let i = 1; i < pieData.length; i++) {
-        pieData[i][1] = pieData[i][1] - pieData[i][2] - pieData[i][3]
+        pieData[i][3] = rawData[i][1] - rawData[i][2]
+        pieData[i][4] = rawData[i][1] - rawData[i][3]
       }
+
+      console.log('-----')
+      console.log(pieData)
       return pieData
     }
   },
